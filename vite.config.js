@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/cipher/",
+  base: "/yscalecw/",
   plugins: [],
   server: {
     open: false,
