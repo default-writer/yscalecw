@@ -4,6 +4,7 @@
   --color-primary: #ff2d55;
   --color-primary-dark: #d6002f;
   --color-primary-light: #ffe5eb;
+  --color-primary-soft: #fff0f4;
   --color-text: #1a1a2e;
   --color-text-light: #6b7280;
   --color-success: #10b981;
@@ -59,10 +60,7 @@ body {
 
 .crossword-container {
   display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start;
 }
 
 .grid-wrapper {
@@ -70,7 +68,13 @@ body {
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
+
+/* ---------- Crossword grid ---------- */
 
 .crossword-grid {
   display: grid;
@@ -78,13 +82,13 @@ body {
 }
 
 .cell {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   border: 2px solid transparent;
   transition: all 0.15s ease;
@@ -116,16 +120,12 @@ body {
   border: none;
   background: transparent;
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--color-text);
   text-transform: uppercase;
   outline: none;
   caret-color: var(--color-primary);
-}
-
-.cell.editable input::placeholder {
-  color: #c9a0ac;
 }
 
 .cell.correct {
@@ -138,14 +138,155 @@ body {
   border-color: var(--color-error);
 }
 
-.clues-panel {
-  flex: 1;
-  min-width: 280px;
-  max-width: 420px;
-  background: var(--color-card);
-  border-radius: var(--radius);
+.cell .cell-number {
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* ---------- Controls under grid ---------- */
+
+.grid-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lang-switcher {
+  display: inline-flex;
+  background: var(--color-primary-soft);
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid #f0d0d8;
+}
+
+.lang-option {
+  border: none;
+  background: transparent;
+  padding: 8px 20px;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.lang-option.active {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 45, 85, 0.3);
+}
+
+.action-btn {
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: 2px solid var(--color-primary);
+  background: white;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.action-btn:hover {
+  background: var(--color-primary-light);
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  border: none;
+  padding: 12px 24px;
+}
+
+.action-btn.primary:hover {
+  opacity: 0.9;
+}
+
+.result-message {
+  text-align: center;
+  font-weight: 600;
+  min-height: 24px;
+  font-size: 0.95rem;
+}
+
+.result-message.success {
+  color: var(--color-success);
+}
+
+.result-message.error {
+  color: var(--color-error);
+}
+
+/* ---------- Clues overlay ---------- */
+
+.fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 46, 0.55);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
   padding: 24px;
-  box-shadow: var(--shadow);
+}
+
+.fullscreen-overlay.active {
+  display: flex;
+}
+
+.view-2-content {
+  background: var(--color-card);
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+}
+
+.view-2-close {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  color: var(--color-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s;
+}
+
+.view-2-close:hover {
+  transform: scale(1.05);
+}
+
+.close-btn {
+  width: 22px;
+  height: 22px;
+}
+
+.clues-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
 
 .clues-section h2 {
@@ -157,13 +298,12 @@ body {
 
 .clues-section ul {
   list-style: none;
-  margin-bottom: 20px;
 }
 
 .clues-section li {
-  padding: 8px 0;
-  border-bottom: 1px solid #f1f3f5;
-  font-size: 0.95rem;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.92rem;
   line-height: 1.4;
   cursor: pointer;
   transition: background 0.15s;
@@ -171,8 +311,6 @@ body {
 
 .clues-section li:hover {
   background: var(--color-primary-light);
-  border-radius: 6px;
-  padding-left: 6px;
 }
 
 .clues-section li .clue-number {
@@ -181,35 +319,16 @@ body {
   margin-right: 6px;
 }
 
-.check-btn {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  margin-top: 8px;
-}
-
-.check-btn:hover {
-  opacity: 0.9;
-}
-
-.result-message {
-  margin-top: 16px;
-  text-align: center;
-  font-weight: 600;
-  min-height: 24px;
-}
-
-.result-message.success {
-  color: var(--color-success);
-}
-
-.result-message.error {
-  color: var(--color-error);
+@media (max-width: 640px) {
+  .cell {
+    width: 46px;
+    height: 46px;
+    font-size: 1.1rem;
+  }
+  .cell.editable input {
+    font-size: 1.1rem;
+  }
+  .clues-panel {
+    grid-template-columns: 1fr;
+  }
 }

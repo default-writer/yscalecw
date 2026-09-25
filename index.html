@@ -10,15 +10,35 @@
     <div id="main">
       <div class="app-header">
         <h1>Yandex Scale Crossword</h1>
-        <p class="subtitle">По материалам трека DeepTech</p>
+        <p class="subtitle">По материалам трека DeepTech · конференция Scale 2026</p>
       </div>
 
       <div class="crossword-container">
         <div class="grid-wrapper">
           <div id="crossword-grid" class="crossword-grid"></div>
-        </div>
 
-        <aside class="clues-panel">
+          <div class="grid-controls">
+            <div id="lang-switcher" class="lang-switcher" role="tablist">
+              <button type="button" data-lang="ru" class="lang-option active">RU</button>
+              <button type="button" data-lang="en" class="lang-option">EN</button>
+            </div>
+
+            <button id="show-clues" type="button" class="action-btn">
+              Подсказки
+            </button>
+            <button id="check-btn" type="button" class="action-btn primary">
+              Проверить
+            </button>
+          </div>
+
+          <div id="result-message" class="result-message"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-2-screen" class="fullscreen-overlay">
+      <div class="view-2-content">
+        <div class="clues-panel">
           <div class="clues-section">
             <h2>По горизонтали</h2>
             <ul id="clues-across"></ul>
@@ -27,22 +47,17 @@
             <h2>По вертикали</h2>
             <ul id="clues-down"></ul>
           </div>
-          <button id="check-btn" class="check-btn">Проверить</button>
-          <div id="result-message" class="result-message"></div>
-        </aside>
+        </div>
       </div>
-    </div>
-
-    <div id="view-2-screen" class="fullscreen-overlay">
-      <div class="view-2-content"></div>
-      <div id="view-2-close">
+      <button id="view-2-close" class="view-2-close" type="button" aria-label="Закрыть">
         <svg class="close-btn" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <g><path class="close-icon"></path></g>
+          <path d="M6 6 L18 18 M6 18 L18 6"
+                stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" fill="none"/>
         </svg>
-      </div>
+      </button>
     </div>
 
-    <div id="root"></div>
     <script type="module" src="/index.js"></script>
   </body>
 </html>
